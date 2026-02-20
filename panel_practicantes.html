@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICOP | Sistema de Control de Prácticas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase-api.js"></script>
+    <script src="js/practicante.js"></script>
+    <script src="js/empresa.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo-text">SICOP.</span>
+                <p class="sidebar-empresa" id="sidebar-empresa">—</p>
+                <h2 class="sidebar-title" id="sidebar-title">Practicantes</h2>
+                <ul class="step-list">
+                    <li class="step-item active" id="step-1-indicator">
+                        <div class="step-number">01</div>
+                        <div>
+                            <p class="step-label">Identidad</p>
+                            <p class="step-desc">Datos básicos</p>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step-2-indicator">
+                        <div class="step-number">02</div>
+                        <div>
+                            <p class="step-label">Academia</p>
+                            <p class="step-desc">Estudios</p>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step-3-indicator">
+                        <div class="step-number">03</div>
+                        <div>
+                            <p class="step-label">Asignación</p>
+                            <p class="step-desc">Logística</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <p class="credit">Desarrollado por <br><strong>Franklin Manuel Baldovino V.</strong></p>
+        </aside>
+
+        <main class="main-panel" id="main-panel">
+            <!-- Vista: Listado de practicantes (se muestra primero) -->
+            <div id="vista-listado" class="vista-listado">
+                <header class="form-header">
+                    <a href="menu.html" class="link-menu">&larr; Menú Principal</a>
+                </header>
+                <div class="listado-header">
+                    <h2 class="listado-titulo">Practicantes registrados</h2>
+                    <button type="button" class="btn btn-next" id="btn-ir-alta">Registrar nuevo practicante</button>
+                </div>
+                <div class="form-aviso form-aviso--error listado-aviso-with-margin is-hidden" id="listado-aviso" role="alert">
+                    <span class="form-aviso-icon" aria-hidden="true"></span>
+                    <span id="listado-aviso-texto"></span>
+                </div>
+
+                <!-- Zona de detalle: mismo estilo de cuadro, información cargada aquí -->
+                <div class="listado-detalle is-hidden" id="listado-detalle">
+                    <div class="listado-detalle-header">
+                        <span class="listado-detalle-titulo" id="listado-detalle-titulo">Detalle del practicante</span>
+                        <button type="button" class="listado-detalle-cerrar" id="listado-detalle-cerrar">Cerrar</button>
+                    </div>
+                    <div class="listado-detalle-cuadros" id="listado-detalle-cuadros">
+                        <div class="practicante-cuadro practicante-cuadro--detalle" id="cuadro-identificacion"></div>
+                        <div class="practicante-cuadro practicante-cuadro--detalle" id="cuadro-academico"></div>
+                        <div class="practicante-cuadro practicante-cuadro--detalle" id="cuadro-asignacion"></div>
+                        <div class="practicante-cuadro practicante-cuadro--detalle" id="cuadro-horas-mes"></div>
+                    </div>
+                </div>
+
+                <div class="listado-cuadros" id="listado-cuadros">
+                    <!-- Se llenan por JS -->
+                </div>
+                <p class="listado-vacio is-hidden" id="listado-vacio">Aún no hay practicantes registrados. Use el botón superior para dar de alta uno.</p>
+            </div>
+
+            <!-- Vista: Formulario de alta (oculta al inicio) -->
+            <div id="vista-formulario" class="vista-formulario is-hidden">
+                <header class="form-header" id="form-header">
+                    <a href="menu.html" class="link-menu">&larr; Menú Principal</a>
+                    <span id="step-tag" class="header-tag">PASO 1 DE 3</span>
+                </header>
+
+                <form id="multi-step-form">
+                <div class="step-pane active" id="pane-1">
+                    <div class="section-header">
+                        <span>01. Identificación del Estudiante</span>
+                        <div class="line"></div>
+                    </div>
+                    <div class="grid-layout">
+                        <div class="input-group full-width">
+                            <label>Nombre Completo</label>
+                            <input type="text" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Cédula / Documento</label>
+                            <input type="text" placeholder="Número de identidad" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Correo Institucional</label>
+                            <input type="email" placeholder="usuario@correo.com" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-pane" id="pane-2">
+                    <div class="section-header">
+                        <span>02. Información Académica</span>
+                        <div class="line"></div>
+                    </div>
+                    <div class="grid-layout">
+                        <div class="input-group full-width">
+                            <label>Institución Universitaria</label>
+                            <input type="text" placeholder="Nombre de la Universidad" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Programa Académico</label>
+                            <input type="text" placeholder="Programa académico" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Semestre Actual</label>
+                            <select required>
+                                <option value="1">1er Semestre</option>
+                                <option value="2">2do Semestre</option>
+                                <option value="3">3er Semestre</option>
+                                <option value="4">4to Semestre</option>
+                                <option value="5">5to Semestre</option>
+                                <option value="6">6to Semestre</option>
+                                <option value="7">7mo Semestre</option>
+                                <option value="8">8vo Semestre</option>
+                                <option value="9">9no Semestre</option>
+                                <option value="10">10mo Semestre</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-pane" id="pane-3">
+                    <div class="section-header">
+                        <span>03. Detalles de Asignación</span>
+                        <div class="line"></div>
+                    </div>
+                    <div class="grid-layout">
+                        <div class="input-group">
+                            <label>Fecha de Inicio</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Fecha de Fin</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Jefe inmediato</label>
+                        <input type="text" placeholder="Nombre del Jefe inmediato" required>
+                    </div>
+                </div>
+
+                <div class="form-aviso form-aviso--error is-hidden" id="form-aviso" role="alert" aria-live="polite">
+                    <span class="form-aviso-icon" aria-hidden="true"></span>
+                    <span class="form-aviso-texto" id="form-aviso-texto">Complete todos los campos obligatorios antes de continuar.</span>
+                </div>
+
+                <div class="footer-actions" id="footer-actions">
+                    <button type="button" class="btn btn-cancel" id="btn-descartar">Descartar</button>
+                    <button type="button" class="btn btn-prev is-hidden" id="btn-prev">Anterior</button>
+                    <button type="button" class="btn btn-next" id="btn-next">Siguiente</button>
+                </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>

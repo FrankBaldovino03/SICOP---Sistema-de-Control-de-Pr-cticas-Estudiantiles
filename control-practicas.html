@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICOP | Control de Prácticas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="styles/control-practicas.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase-api.js"></script>
+    <script src="js/practicante.js"></script>
+    <script src="js/empresa.js"></script>
+</head>
+<body>
+
+    <header class="header-bar">
+        <div class="logo-section">
+            <img src="Img/Logo.png" alt="SICOP" width="40" height="40">
+            <div class="brand-name">SICOP</div>
+        </div>
+
+        <div class="header-actions">
+            <select id="select-practicante" class="control-select">
+                <option value="">Seleccione practicante...</option>
+            </select>
+            <span id="label-practicante" class="control-practicante-label" style="display: none;"></span>
+            <button class="btn btn-export" id="btn-export-pdf">Exportar PDF</button>
+            <a href="menu.html" class="btn btn-back">Volver al Inicio</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Tabla Full Height -->
+        <div class="table-card">
+            <div class="table-scroll">
+                <table class="control-practicas-table">
+                    <thead>
+                        <tr>
+                            <th colspan="9" class="table-title">CONTROL DE PRACTICAS</th>
+                        </tr>
+                        <tr class="subheader">
+                            <th colspan="3"></th>
+                            <th colspan="2">MAÑANA</th>
+                            <th colspan="2">TARDE</th>
+                            <th colspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>NOMBRE</th>
+                            <th>CEDULA</th>
+                            <th>HORA ENTRADA</th>
+                            <th>HORA SALIDA</th>
+                            <th>HORA ENTRADA</th>
+                            <th>HORA SALIDA</th>
+                            <th>HORAS POR DIA</th>
+                            <th>JEFE INMEDIATO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-practicantes">
+                        <!-- Inyectado por JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer">
+                <button type="button" class="btn btn-add" id="btn-agregar" disabled>Agregar</button>
+                <button type="button" class="btn btn-export" id="btn-guardar">Guardar</button>
+                <button type="button" class="btn btn-limpiar" id="btn-limpiar-tabla">Limpiar tabla</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <span>Control Interno de Prácticas Profesionales</span>
+        <span>Desarrollado por: Franklin Manuel Baldovino Vergara</span>
+    </footer>
+
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <script src="js/control-practicas.js"></script>
+</body>
+</html>

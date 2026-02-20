@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICOP | Sistema de Control de Prácticas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/registro-empresa.css">
+</head>
+<body>
+    <div class="mesh-bg"></div>
+
+    <div class="master-wrapper">
+        
+        <!-- SECCIÓN DE INFO (ESTÁTICA/DINÁMICA) -->
+        <div class="info-side">
+            <div class="logo-text">SI<span>COP</span>.</div>
+            
+            <div id="info-content">
+                <h1 class="hero-title" id="dynamic-title">Gestiona el <br>Talento.</h1>
+                <p style="color: #888; max-width: 300px;">La plataforma para el control de prácticas profesionales. Inicia sesión o regístrate como practicante.</p>
+            </div>
+
+            <div class="footer-sign">
+                <p style="font-size: 0.8rem;">Desarrollado por</p>
+                <p style="font-weight: 700; color: var(--accent);">Baldovino Vergara</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE FORMULARIOS -->
+        <div class="forms-side" style="position: relative;">
+            <div class="aviso-toast" id="aviso-toast" role="alert" aria-live="polite">
+                <i class="fa-solid fa-circle-exclamation aviso-icon"></i>
+                <span id="aviso-toast-texto"></span>
+                <button type="button" class="aviso-close" id="aviso-toast-cerrar" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="registro-exito-overlay" id="registro-exito-overlay">
+                <div class="registro-exito-box">
+                    <div class="exito-icon"><i class="fa-solid fa-check"></i></div>
+                    <h3>¡Registro exitoso!</h3>
+                    <p>Redirigiendo al menú...</p>
+                </div>
+            </div>
+
+            <!-- LOGIN FORM (Practicante) -->
+            <div class="content-box active" id="login-box">
+                <h2>Bienvenido de vuelta</h2>
+                <p class="desc">Accede con tu cédula o correo y contraseña.</p>
+                <form id="form-login">
+                    <div class="input-floating">
+                        <i class="fa-solid fa-id-card"></i>
+                        <input type="text" id="cedula-login" name="cedula" placeholder="Cédula o correo" required autocomplete="username">
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-shield"></i>
+                        <input type="password" id="password-login" name="password" placeholder="Contraseña" required autocomplete="current-password">
+                        <i class="fa-solid fa-eye toggle-password" data-target="password-login" title="Mostrar contraseña" aria-label="Mostrar contraseña"></i>
+                    </div>
+                    <button type="submit" class="btn-neon" id="btn-login">Iniciar Sesión</button>
+                </form>
+                <button type="button" class="switch-btn" onclick="showRegister()">¿No tienes cuenta? Regístrate como practicante</button>
+            </div>
+
+            <!-- REGISTER FORM (Practicante) -->
+            <div class="content-box" id="register-box">
+                <h2>Registro de Practicante</h2>
+                <p class="desc">Completa tus datos para acceder al sistema.</p>
+                
+                <div class="scroll-v">
+                    <div class="input-floating">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="nombre-completo" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-id-card"></i>
+                        <input type="text" id="cedula-registro" placeholder="Cédula / Documento" required>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="correo-registro" placeholder="Correo institucional" required>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <input type="text" id="institucion" placeholder="Institución universitaria" required>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <input type="text" id="programa" placeholder="Programa académico" required>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <select id="semestre" required>
+                            <option value="">Semestre actual</option>
+                            <option value="1">1er Semestre</option>
+                            <option value="2">2do Semestre</option>
+                            <option value="3">3er Semestre</option>
+                            <option value="4">4to Semestre</option>
+                            <option value="5">5to Semestre</option>
+                            <option value="6">6to Semestre</option>
+                            <option value="7">7mo Semestre</option>
+                            <option value="8">8vo Semestre</option>
+                            <option value="9">9no Semestre</option>
+                            <option value="10">10mo Semestre</option>
+                        </select>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password-registro" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6" autocomplete="new-password">
+                        <i class="fa-solid fa-eye toggle-password" data-target="password-registro" title="Mostrar contraseña" aria-label="Mostrar contraseña"></i>
+                    </div>
+                    <div class="input-floating">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password-confirm" placeholder="Confirmar contraseña" required minlength="6" autocomplete="new-password">
+                        <i class="fa-solid fa-eye toggle-password" data-target="password-confirm" title="Mostrar contraseña" aria-label="Mostrar contraseña"></i>
+                    </div>
+                </div>
+
+                <form id="form-register" style="display: contents;">
+                    <button type="submit" class="btn-neon">Registrarme</button>
+                </form>
+                <button type="button" class="switch-btn" onclick="showLogin()">Volver al Login</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase-api.js"></script>
+    <script src="js/practicante.js"></script>
+    <script src="js/registro-practicante.js"></script>
+</body>
+</html>

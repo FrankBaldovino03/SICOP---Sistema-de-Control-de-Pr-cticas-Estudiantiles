@@ -1,0 +1,489 @@
+/* Página de registro/inicio sesión empresa - Next-Gen Experience */
+:root {
+    --accent: #2563eb;
+    --main: #1e40af;
+    --dark: #0a0a0a;
+    --glass: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 12px;
+}
+
+/* --- Fondo Líquido Animado --- */
+.mesh-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 0% 0%, #1e3a8a 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, #2563eb 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, #3b82f6 0%, transparent 40%),
+                radial-gradient(circle at 0% 100%, #1e40af 0%, transparent 50%);
+    background-size: 200% 200%;
+    animation: drift 15s ease infinite alternate;
+    z-index: -1;
+    filter: blur(40px);
+}
+
+@keyframes drift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* --- Contenedor Maestro --- */
+.master-wrapper {
+    width: 1100px;
+    height: 700px;
+    display: flex;
+    position: relative;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(30px);
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+}
+
+/* --- Lado Izquierdo (Visual) --- */
+.info-side {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+    background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+}
+
+.logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; letter-spacing: -1px; }
+.logo-text span { color: var(--accent); }
+
+.hero-title { font-family: 'Syne', sans-serif; font-size: 3.5rem; line-height: 1; margin: 20px 0; }
+
+/* --- Lado Derecho (Formularios) --- */
+.forms-side {
+    flex: 1.2;
+    position: relative;
+    padding: 60px;
+}
+
+.content-box {
+    position: absolute;
+    width: 80%;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content-box.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+/* --- Elementos de UI Modernos --- */
+.forms-side h2 { font-size: 1.8rem; margin-bottom: 10px; font-weight: 600; }
+.forms-side p.desc { color: #aaa; margin-bottom: 30px; font-size: 0.9rem; }
+
+.input-floating {
+    margin-bottom: 20px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    transition: 0.3s;
+}
+.input-floating:focus-within {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.25);
+}
+.input-floating i { color: var(--accent); width: 25px; }
+.input-floating input,
+.input-floating select {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 18px 10px;
+    width: 100%;
+    outline: none;
+    font-size: 0.95rem;
+}
+.input-floating select option {
+    background: #1a1a2e;
+    color: white;
+}
+.input-floating .toggle-password {
+    cursor: pointer;
+    margin-left: 8px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.input-floating .toggle-password:hover { opacity: 1; }
+
+/* --- Lista de planes --- */
+.plan-list {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.plan-card {
+    background: var(--glass);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+}
+.plan-card:hover {
+    border-color: rgba(37, 99, 235, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+}
+.plan-card.selected {
+    border-color: var(--accent);
+    background: rgba(37, 99, 235, 0.12);
+    box-shadow: 0 0 24px rgba(37, 99, 235, 0.2);
+}
+.plan-card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.plan-card-name { font-weight: 700; font-size: 1rem; color: #fff; }
+.plan-card-desc { font-size: 0.8rem; color: #aaa; }
+.plan-card-price { font-weight: 700; font-size: 1rem; color: var(--accent); flex-shrink: 0; }
+.plan-card.selected .plan-card-price { color: #fff; }
+.plan-card .plan-card-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--border); margin-left: 12px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+.plan-card.selected .plan-card-check {
+    border-color: var(--accent); background: var(--accent);
+}
+.plan-card.selected .plan-card-check::after {
+    content: "✓"; color: #000; font-size: 0.75rem; font-weight: 700;
+}
+
+.btn-neon {
+    background: var(--accent); color: white; border: none; padding: 18px;
+    border-radius: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; cursor: pointer; width: 100%; margin-top: 20px;
+    transition: 0.3s; position: relative; overflow: hidden;
+}
+.btn-neon:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--accent); }
+.btn-neon::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(transparent, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg); transition: 0.5s;
+}
+.btn-neon:hover::after { left: 100%; }
+
+.aviso-toast {
+    position: absolute; top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    min-width: 280px; max-width: 90%;
+    padding: 14px 20px;
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(37, 99, 235, 0.5);
+    border-radius: 14px; color: #fff; font-size: 0.9rem;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    z-index: 100; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.aviso-toast.visible {
+    opacity: 1; transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+.aviso-toast .aviso-icon { color: var(--accent); font-size: 1.2rem; flex-shrink: 0; }
+.aviso-toast .aviso-close {
+    margin-left: auto; background: none; border: none; color: #888;
+    cursor: pointer; padding: 4px; font-size: 1.1rem; line-height: 1;
+}
+.aviso-toast .aviso-close:hover { color: #fff; }
+
+.registro-exito-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+}
+.registro-exito-overlay.visible { opacity: 1; pointer-events: auto; }
+.registro-exito-box {
+    text-align: center; padding: 3rem 2.5rem;
+    background: var(--glass); border: 1px solid rgba(37, 99, 235, 0.4);
+    border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: exitoEntrada 0.5s ease;
+}
+.registro-exito-box .exito-icon {
+    width: 72px; height: 72px; margin: 0 auto 1.5rem;
+    background: rgba(34, 197, 94, 0.2); border: 3px solid #22c55e;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #22c55e; font-size: 2.2rem;
+}
+.registro-exito-box h3 { font-size: 1.75rem; color: #fff; margin-bottom: 0.5rem; }
+.registro-exito-box p { color: #aaa; font-size: 0.95rem; }
+@keyframes exitoEntrada {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Overlay de pago Nequi */
+.pago-nequi-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.pago-nequi-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.pago-nequi-box {
+    text-align: center;
+    padding: 2rem 2.5rem;
+    background: var(--glass);
+    border: 1px solid rgba(37, 99, 235, 0.4);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    max-width: 400px;
+    width: 90%;
+}
+.pago-nequi-header h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+.pago-nequi-desc {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+.pago-nequi-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.pago-nequi-numero,
+.pago-nequi-monto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.pago-nequi-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.pago-nequi-valor {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+.pago-nequi-copiar {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    background: rgba(37, 99, 235, 0.2);
+    border: 1px solid var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: 0.2s;
+}
+.pago-nequi-copiar:hover {
+    background: rgba(37, 99, 235, 0.35);
+}
+.pago-nequi-inst {
+    text-align: left;
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+.pago-nequi-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.pago-nequi-actions .switch-btn {
+    margin-top: 0;
+}
+
+.pago-nequi-paso.is-hidden {
+    display: none !important;
+}
+
+.pago-comprobante-zone {
+    margin: 1.5rem 0;
+}
+.pago-comprobante-input {
+    display: none;
+}
+.pago-comprobante-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+.pago-comprobante-label:hover {
+    border-color: var(--accent);
+    background: rgba(37, 99, 235, 0.05);
+    color: #fff;
+}
+.pago-comprobante-label i {
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.switch-btn {
+    background: none; border: 1px solid var(--border); color: white;
+    padding: 10px 20px; border-radius: 30px; cursor: pointer;
+    font-size: 0.8rem; margin-top: 20px; transition: 0.3s;
+}
+.switch-btn:hover { background: white; color: black; }
+
+.scroll-v { max-height: 400px; overflow-y: auto; padding-right: 15px; }
+.scroll-v::-webkit-scrollbar { width: 4px; }
+.scroll-v::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+footer { position: absolute; bottom: 30px; left: 60px; font-size: 0.7rem; color: #666; }
+
+/* --- Responsividad --- */
+@media (max-width: 1024px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .master-wrapper {
+        width: 100%;
+        max-width: 980px;
+        height: auto;
+    }
+
+    .forms-side,
+    .info-side {
+        padding: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .master-wrapper {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        border-radius: 32px;
+    }
+
+    .info-side {
+        padding: 32px 24px 20px;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .forms-side {
+        padding: 28px 20px 32px;
+    }
+
+    .content-box {
+        position: relative;
+        width: 100%;
+    }
+
+    footer {
+        position: static;
+        margin-top: 16px;
+        padding: 0 24px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px 10px;
+    }
+
+    .master-wrapper {
+        border-radius: 24px;
+    }
+
+    .info-side {
+        padding: 24px 18px 16px;
+    }
+
+    .logo-text {
+        font-size: 1.6rem;
+    }
+
+    .hero-title {
+        font-size: 2.1rem;
+    }
+
+    .forms-side {
+        padding: 22px 16px 24px;
+    }
+
+    .input-floating {
+        padding: 0 14px;
+    }
+
+    .input-floating input,
+    .input-floating select {
+        padding: 14px 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn-neon {
+        padding: 14px;
+        font-size: 0.8rem;
+    }
+
+    .switch-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
